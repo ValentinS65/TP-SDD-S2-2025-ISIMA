@@ -44,23 +44,19 @@ int casePossible(int * placement,int l,int c,int n){
 }
 
 liste_solutions *  addAllSolutions(liste_solutions * l_sol, int * placement,int l,int n){
-	if(l==n){
-		return addSolution(l_sol,placement,n);
-	}
-	else{
-		for(int i=0;i<n;i++){
-			if(casePossible(placement,l,i,n)){
-				int * newp=(int*)malloc(sizeof(int)*n);
-				for(int j=0;j<n;j++){
-					newp[j]=placement[j];
-				}
-				newp[l]=i;
-				l_sol =addAllSolutions(l_sol,newp,l+1,n);
-				free(newp);
-			}
-		}
-	}
-	return l_sol;
+	 if (l == n) {
+        // On a une solution complète, donc on enregistre une COPIE ici
+        return addSolution(l_sol, placement, n);
+    } else {
+        for (int i = 0; i < n; i++) {
+            if (casePossible(placement, l, i, n)) {
+                placement[l] = i;  // On modifie en place
+                l_sol = addAllSolutions(l_sol, placement, l + 1, n);
+                // Pas besoin de annuler placement[l], il sera écrasé au prochain tour
+            }
+        }
+    }
+    return l_sol;
 }
 
 

@@ -58,8 +58,8 @@ void test_huffman(){
 }
 
 int main() {
-  //test_impression();
-  //test_huffman();
+  test_impression();
+  test_huffman();
   
   char * s="barbapapa";
   arbre * a=huffman(s);

@@ -94,10 +94,11 @@ void test_listMap(){
 
 	list * l =liste_de_test();
 	printf("Liste des carres : ");
-
-	listDisplay(listMap(l,carre));
+	list * lMap=listMap(l,carre);
+	listDisplay(lMap);
 
 	printf("\n");
+	listFree(lMap);
 	listFree(l);
 
 }
@@ -113,10 +114,11 @@ int sup3(int n){
 void test_listFilter(){
 	list * l =liste_de_test();
 	printf("Liste filtree : ");
-
-	listDisplay(listFilter(l,sup3));
+	list * lf=listFilter(l,sup3);
+	listDisplay(lf);
 	
 	printf("\n");
+	listFree(lf);
 	listFree(l);
 
 }
@@ -238,18 +240,27 @@ int test_dames(){
 
 }
 
+
+int estpair(int n){
+	return (n%2==0)?1:0;
+}
+
 int main()
 {
+	
+	
+	
+	/*
     //------------------------------------------------------------------
     // tests question 1 : Première fonction récursive (nombres romains )
     //------------------------------------------------------------------
-    //test_romains();
+    test_romains();
 
-
+	
     //------------------------------------------------------------------
     // tests question 2 : Récursivité et listes
     //------------------------------------------------------------------
-	/*
+	
     test_listDisplay();
 	
 	test_listInverseDisplay();
@@ -292,16 +303,18 @@ int main()
 //------------------------------------------------------------------
 
     
-    test_dames();
+    //test_dames();
     
-	*/
+	
 //------------------------------------------------------------------
 // tests question 5 : Fractales triangles de Sierpinski
 //------------------------------------------------------------------
 
-    /*
+    
     main_SDL();
-    */   
+    */ 
+	
+    return 0;
 }
 
 

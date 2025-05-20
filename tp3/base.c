@@ -28,16 +28,8 @@ void printBaseB(list * l){
 }
 
 int baseToDec(list* l){
-    
-    int resultat=0;
-    if(l->next!=NULL){
-        return resultat + l->value + (base * baseToDec(l->next));
-
-    }
-    else{
-        return resultat + l->value;
-    }
-
+    if(l==NULL){return 0;} 
+    return l->value + base*(baseToDec(l->next));
  
 }
 
@@ -54,16 +46,12 @@ int baseToDec2(list* l){
 
 list* decToBase(int n ){
     list*l=(list*)malloc(sizeof(list));
-    if(n!=0){
-        l->value=n%base;
+    l->value=n%base;
+    if(n>=base){
         l->next=decToBase(n/base);
     }
     else{
-        l->value=n%base;
         l->next=NULL;
     }
-    
-    
-    
     return l;
 }

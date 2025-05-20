@@ -19,6 +19,7 @@ arbre * noeud(char c, arbre * g, arbre * d){
   return new;}
 
 int est_feuille(arbre * a) {
+  if (a == NULL) return 0;
   if(a->gauche==NULL && a->droite==NULL){
     return 1;
   }
@@ -66,6 +67,7 @@ void imprime_avec_blancs(FILE * f, arbre * a, int niveau, int est_droit) {
 }
 
 void imprime_arbre(FILE * f, arbre * a){
+  if (a == NULL) return;
   imprime_avec_blancs(f,a->droite,1,1);
   fprintf(f,"%c\n",a->data);
   imprime_avec_blancs(f,a->gauche,1,0);

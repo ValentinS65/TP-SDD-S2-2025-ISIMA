@@ -3,7 +3,7 @@
 #include "hashtable.h"
 
 int main(int argc, char ** argv) {
-	hashtable * h = hashtableCreate();
+	hashtable * h = hashtableCreate(10);
 	printf("Hashtable vide :\n");
 	hashtableDisplay(h);
 	printf("Hashtable sans collision :\n");

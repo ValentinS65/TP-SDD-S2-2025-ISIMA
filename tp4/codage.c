@@ -29,22 +29,42 @@ void libere_encodage(encodage ** e) {
     *e = NULL;
   }
 }
-
+encodage * inverse_encodage(encodage * e) {
+  encodage * res = NULL;
+  while (e != NULL) {
+    res = cree_encodage(e->data, res);
+    e = e->suivant;
+  }
+  return res;
+}
 int code_char(arbre * a, char c, encodage ** e) {
-    if(est_feuille(a)){
-      return a->data==c;
-    }
-    if(code_char(a->droite,c,e)){
-      *e=cree_encodage(0,*e);
-      
-    }
-    else if(code_char(a->gauche,c,e)){
-      *e=cree_encodage(1,*e);
-    }
-    else{
-      return 0;
-    }
-    return 1;
+    if (est_feuille(a)) {
+    return a->data == c;
+  }
+
+  encodage * tmp = NULL;
+
+  if (code_char(a->gauche, c, &tmp)) {
+    tmp = cree_encodage(0, tmp);
+  } else if (code_char(a->droite, c, &tmp)) {
+    tmp = cree_encodage(1, tmp);
+  } else {
+    return 0;
+  }
+
+  // Inverse temporaire pour remettre dans le bon sens
+  encodage * tmp_inv = inverse_encodage(tmp);
+  libere_encodage(&tmp);
+
+  // Ajoute à la fin de e
+  encodage * cur = tmp_inv;
+  while (cur != NULL) {
+    *e = cree_encodage(cur->data, *e);
+    cur = cur->suivant;
+  }
+
+  libere_encodage(&tmp_inv);
+  return 1;
 
   
 }
@@ -60,17 +80,17 @@ encodage * code_texte(arbre * a, char * s) {
 }
 
 encodage * decode_suivant(FILE * f, arbre * a, encodage * e) {
-  encodage * parcours=e;
-  if(a->data!='*'){
-    fprintf(f,"%c",a->data);
-    return parcours;
-  }
-  if(e->data==0){
-    decode_suivant(f,a->droite,e->suivant);
-  }
-  else{
-    decode_suivant(f,a->gauche,e->suivant);
+   if (a == NULL || e == NULL) return NULL;
 
+  if (est_feuille(a)) {
+    fprintf(f, "%c", a->data);
+    return e;
+  }
+
+  if (e->data == 0) {
+    return decode_suivant(f, a->gauche, e->suivant);
+  } else {
+    return decode_suivant(f, a->droite, e->suivant);
   }
 }
 

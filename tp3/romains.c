@@ -21,18 +21,18 @@ int nombreRomainToDecimal(char* strRomain){
 	//printf("Entree dans nombreRomainToDecimal ,  chiffreRomain=%s\n",strRomain);
 	int taille=strlen(strRomain);
 	int next;
-	int decimal=chiffreRomainToDecimal(strRomain[0]);;
+	int decimal=chiffreRomainToDecimal(strRomain[0]);
 	if(taille==1){
 		return decimal;
 	}
 	else{
-		next=nombreRomainToDecimal(strRomain + 1);
+
+		next=chiffreRomainToDecimal(strRomain[1]);
 		if(next>decimal){
-			return next-decimal;
+			return nombreRomainToDecimal(strRomain + 2)+(next-decimal);
 		}else{
-			return next+decimal;
+			return nombreRomainToDecimal(strRomain + 1)+decimal;
 		}
 	}
-	//printf("Sortie de nombreRomainToDecimal ,  chiffreRomain=%s , valeur retournee :%d\n",strRomain,decimal);
 	
 }

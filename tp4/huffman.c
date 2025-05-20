@@ -45,43 +45,35 @@ liste * genere_liste(char * s) {
   
   return res;
 }
-
 arbrepoids * extrait_min(liste ** l) {
-  if (*l == NULL) {
-      return NULL; // Handle empty list
-  }
+  if (*l == NULL) return NULL;
 
-  int min = (*l)->data->poids;
-  arbrepoids * a_min = (*l)->data;
   liste * temp = *l;
+  liste * min_prev = NULL;
+  liste * min_node = temp;
   liste * prev = NULL;
 
-  // Find the minimum element
+  int min = temp->data->poids;
+
   while (temp != NULL) {
-      if (min > temp->data->poids) {
-          min = temp->data->poids;
-          a_min = temp->data;
-      }
-      temp = temp->suivant;
+    if (temp->data->poids < min) {
+      min = temp->data->poids;
+      min_prev = prev;
+      min_node = temp;
+    }
+    prev = temp;
+    temp = temp->suivant;
   }
 
-  // Remove the minimum element
-  temp = *l;
-  if (temp->data == a_min) {
-      *l = temp->suivant;
-      free(temp);
+  if (min_prev == NULL) {
+    *l = min_node->suivant;
   } else {
-      while (temp != NULL && temp->data != a_min) {
-          prev = temp;
-          temp = temp->suivant;
-      }
-      if (temp != NULL) {
-          prev->suivant = temp->suivant;
-          free(temp);
-      }
+    min_prev->suivant = min_node->suivant;
   }
 
-  return a_min;
+  arbrepoids * res = min_node->data;
+  free(min_node);
+  return res;
 }
 
 

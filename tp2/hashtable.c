@@ -12,7 +12,7 @@ hashtable * hashtableCreate(int n) {
 	newHash->n=n;
 	newHash->tab=(list**)(malloc(sizeof(list*)*n));
 	for(int i=0;i<n;i++){
-		newHash->tab[i]=(list*)malloc(sizeof(list));
+		newHash->tab[i]=NULL;
 	}
 	return newHash;
 }
@@ -28,9 +28,9 @@ int hash(char * key, int n) {
 
 void listDisplay(list * l) {
 	list * tmp=l;
-	if(tmp->next!=NULL){
+	if(tmp!=NULL){
 		printf("{");
-		while(tmp->next!=NULL){
+		while(tmp!=NULL){
 			printf("key : %s  value : %s\n",tmp->key,tmp->value);
 			tmp=tmp->next;
 		}
@@ -56,7 +56,7 @@ list * listAdd(list * l, char * newK, char * newV) {
 
 char * listSearch(list * l, char * k) {
 	list * tmp=l;
-	while(tmp->next!=NULL){
+	while(tmp!=NULL){
 		if(strcmp(tmp->key,k)==0){
 			return tmp->value;
 		}
@@ -79,12 +79,11 @@ void hashtableAdd(hashtable * h, char * key, char * value) {
 
 void listFree(list * l) {
 	list * tmp;
-	while(l->next!=NULL){
+	while(l!=NULL){
 			tmp=l;
 			l=l->next;
 			free(tmp);
 	}
-	free(l);
 }
 void hashtableFree(hashtable * h) {
 	for(int i=0;i<h->n;i++){
@@ -99,11 +98,11 @@ hashtable * hashtableRehash(hashtable * h, int newN) {
 	list * tmp;
 	for(int i=0;i<h->n;i++){
 		tmp=h->tab[i];
-		while(tmp->next!=NULL){
+		while(tmp!=NULL){
 			hashtableAdd(newH,tmp->key,tmp->value);
 			tmp=tmp->next;
 		}
 	}
-	free(h);
+	hashtableFree(h);
 	return newH;
 }

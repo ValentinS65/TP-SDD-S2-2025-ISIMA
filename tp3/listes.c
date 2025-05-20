@@ -35,58 +35,41 @@ void listInverseDisplay(list * l){
 
 
 int listSearch(list * plist, int n){
-    if(plist->value==n){
-        return 1;
-    }
-    else{
-        if(plist->next!=NULL){
-            listSearch(plist->next,n);
-        }}
-     return 0;
+    if(plist == NULL) return 0;
+    if(plist->value==n) return 1;
+    return listSearch(plist->next,n);
+
 }
 
 
 
 list * listMap(list* l , int (*f)(int)){
+    if(l == NULL) return NULL;
     list * newl=(list*)(malloc(sizeof(list)));
     newl->value=(*f)(l->value);
-    if(l->next!=NULL){
-        newl->next=listMap(l->next,(*f));
-    }else{
-        newl->next=NULL;
-    }
+    newl->next=listMap(l->next,(*f));
     return newl;
    
 
 }
 
 list * listFilter(list* l , int (*p)(int)){
-    if((*p)(l->value)==1 && l!=NULL){
+    if (l == NULL) return NULL;
+    if((*p)(l->value)==1  ){
         list * newl=(list*)(malloc(sizeof(list)));
         newl->value=l->value;
-        if(l->next!=NULL){
-            newl->next=listFilter(l->next,(*p));
-        }else{
-            newl->next=NULL;
-        }
+        newl->next=listFilter(l->next,(*p));
         return newl;
     }
-    if(l->next!=NULL){
-        return listFilter(l->next,(*p));
-    }
-    return NULL;
-
+    return listFilter(l->next,(*p));
+    
 }
 
 int listFold(list* l , int (*op)(int,int),int base){
-
-   if(l!= NULL && l->next!=NULL){
-        return (*op)(l->value,listFold(l->next,(*op),base));
-   }
-   else{
-        return (*op)(l->value,base);
-   }
+    if (l == NULL) return base;
+    return op(l->value, listFold(l->next, op, base));
 }
+
 
 
 int add(int a,int b){
@@ -96,46 +79,43 @@ int prod(int a,int b){
     return a*b;
 }
 int count(int a, int b){
-    return b+1;
+    return 1+b;
 }
 int listSum(list* l ){
-    int res=0;
     if(l!=NULL){
-        res+=listFold(l,add,0);
+        return listFold(l,add,0);
     }
-      return res;
+    return 0;
+
 }
 
 
 int listProd(list* l ){
-    int res=0;
     if(l!=NULL){
-        res+=listFold(l,prod,1);
+        return listFold(l,prod,1);
     }
-      return res;      
+    return 0;
+
 }
 
 int listLen(list* l ){
-      int res=0;
     if(l!=NULL){
-        res+=listFold(l,count,0);
+        return listFold(l,count,0);
     }
-      return res;     
+    return 0;
+
 }
 
 // concatene à l1 l'inverse de l2
 list * ajouteInverse(list * l1,list * l2){
-    list * newl=(list*)(malloc(sizeof(list)));
     if(l2!=NULL){
+        list * newl=(list*)(malloc(sizeof(list)));
         newl->value=l2->value;
         newl->next=l1;
-    }
-    if(l2->next!=NULL){
         return ajouteInverse(newl,l2->next);
-        
-
     }
-    return newl;
+    
+    return l1;
 
 }
 
