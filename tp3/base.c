@@ -30,7 +30,6 @@ void printBaseB(list * l){
 int baseToDec(list* l){
     if(l==NULL){return 0;} 
     return l->value + base*(baseToDec(l->next));
- 
 }
 
 

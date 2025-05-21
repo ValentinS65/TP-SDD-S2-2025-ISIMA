@@ -56,16 +56,22 @@ void test_huffman(){
 
 
 }
-
 int main() {
-  test_impression();
-  test_huffman();
-  
-  char * s="barbapapa";
-  arbre * a=huffman(s);
-  encodage * e=code_texte(a,s);
-  imprime_encodage(stdout,e);
-  decode(stdout,a,e);
-  libere_encodage(&e);
+  arbre * a=noeud('b',
+                noeud('h',
+                      noeud('a',feuille('c'),feuille('d')),
+                      feuille('i')),
+                noeud('e',feuille('f'), feuille('g')));
+
+  char buffer[1024];
+  FILE* out = fmemopen(buffer, 1024, "w");
+  infixe_inverse(out, a);
+
+  fclose(out);
   libere_arbre(&a);
+
+  char* solution = "g\ne\nf\nb\ni\nh\nd\na\nc\n";
+  int erreur = strcmp(buffer, solution);
+
+  printf("erreur : %d\n", erreur);
 }

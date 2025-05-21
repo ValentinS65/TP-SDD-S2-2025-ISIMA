@@ -4,56 +4,63 @@
 #include "arbre.h"
 #include "codage.h"
 #include "huffman.h"
-
-int main(int argc, char ** argv) {
-      arbre * a=noeud('*',
+int main() {
+  arbre * a = noeud('*',
                 noeud('*',
-                      noeud('*',feuille('c'),feuille('d')),
+                      noeud('*', feuille('c'), feuille('d')),
                       feuille('a')),
-                noeud('*',feuille('f'), feuille('g')));
+                noeud('*', feuille('f'), feuille('g')));
 
-      int erreur = 0;
+  int erreur = 0;
+  char buffer[1024];
+  FILE* file;
+  encodage * enc;
 
-      char buffer[1024];
-      FILE* file;
-      encodage * enc;
+  // Test lettre 'a'
+  enc = NULL;
+  code_char(a, 'a', &enc);
+  file = fmemopen(buffer, 1024, "w");
+  imprime_encodage(file, enc);
+  fclose(file);
+  erreur = erreur || strcmp(buffer, "01\n") != 0;
+  libere_encodage(&enc);
 
-      enc = NULL;
-      code_char(a, 'a', enc);
-      file = fmemopen(buffer, 1024, "w");
-      imprime_encodage(file, enc);
-      fclose(file);
-      erreur = erreur || strcmp(buffer, "01\n") != 0;
+  // Test lettre 'c'
+  enc = NULL;
+  code_char(a, 'c', &enc);
+  file = fmemopen(buffer, 1024, "w");
+  imprime_encodage(file, enc);
+  fclose(file);
+  erreur = erreur || strcmp(buffer, "000\n") != 0;
+  libere_encodage(&enc);
 
-      libere_encodage(enc);
-      code_char(a, 'c', enc);
-      file = fmemopen(buffer, 1024, "w");
-      imprime_encodage(file, enc);
-      fclose(file);
-      erreur = erreur || strcmp(buffer, "000\n") != 0;
+  // Test lettre 'd'
+  enc = NULL;
+  code_char(a, 'd', &enc);
+  file = fmemopen(buffer, 1024, "w");
+  imprime_encodage(file, enc);
+  fclose(file);
+  erreur = erreur || strcmp(buffer, "001\n") != 0;
+  libere_encodage(&enc);
 
-      libere_encodage(enc);
-      code_char(a, 'd', enc);
-      file = fmemopen(buffer, 1024, "w");
-      imprime_encodage(file, enc);
-      fclose(file);
-      erreur = erreur || strcmp(buffer, "001\n") != 0;
+  // Test lettre 'f'
+  enc = NULL;
+  code_char(a, 'f', &enc);
+  file = fmemopen(buffer, 1024, "w");
+  imprime_encodage(file, enc);
+  fclose(file);
+  erreur = erreur || strcmp(buffer, "10\n") != 0;
+  libere_encodage(&enc);
 
-      libere_encodage(enc);
-      code_char(a, 'f', enc);
-      file = fmemopen(buffer, 1024, "w");
-      imprime_encodage(file, enc);
-      fclose(file);
-      erreur = erreur || strcmp(buffer, "10\n") != 0;
+  // Test lettre 'g'
+  enc = NULL;
+  code_char(a, 'g', &enc);
+  file = fmemopen(buffer, 1024, "w");
+  imprime_encodage(file, enc);
+  fclose(file);
+  erreur = erreur || strcmp(buffer, "11\n") != 0;
+  libere_encodage(&enc);
 
-      libere_encodage(enc);
-      code_char(a, 'g', enc);
-      file = fmemopen(buffer, 1024, "w");
-      imprime_encodage(file, enc);
-      fclose(file);
-      erreur = erreur || strcmp(buffer, "11\n") != 0;
-
-      libere_arbre(&a);
-      libere_encodage(&enc);
-      return erreur;
+  libere_arbre(&a);
+  return erreur;
 }

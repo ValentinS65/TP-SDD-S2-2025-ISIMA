@@ -81,6 +81,7 @@ list** listPivot(list* l, int pivot){
     while(l!=NULL){
         list * tmp=l->next;
         l->next=NULL;
+        
         if(pivot<l->value){
             l->next=droite;
             droite=l;

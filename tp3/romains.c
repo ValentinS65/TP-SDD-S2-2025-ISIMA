@@ -6,28 +6,24 @@
 int chiffreRomainToDecimal(char chiffreRomain){
 	char chiffres[]={'M','D','C','L','X','V','I','f'};
 	int valeursDecimales[]={1000,500,100,50,10,5,1};
-	int decimal=0;
 	for (int i = 0; chiffres[i]!='f';i++){
 		if (chiffres[i]==chiffreRomain){
-			decimal=valeursDecimales[i];
+			return valeursDecimales[i];
 		}
 	}
-	return decimal;
+	return 0;
 }
 
 
 int nombreRomainToDecimal(char* strRomain){
 	
-	//printf("Entree dans nombreRomainToDecimal ,  chiffreRomain=%s\n",strRomain);
-	int taille=strlen(strRomain);
-	int next;
-	int decimal=chiffreRomainToDecimal(strRomain[0]);
-	if(taille==1){
-		return decimal;
+	if(strRomain[0]=='\0'){
+		return 0;
 	}
 	else{
+		int decimal=chiffreRomainToDecimal(strRomain[0]);
 
-		next=chiffreRomainToDecimal(strRomain[1]);
+		int next=chiffreRomainToDecimal(strRomain[1]);
 		if(next>decimal){
 			return nombreRomainToDecimal(strRomain + 2)+(next-decimal);
 		}else{

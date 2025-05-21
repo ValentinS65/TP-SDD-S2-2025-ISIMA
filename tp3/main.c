@@ -247,8 +247,11 @@ int estpair(int n){
 
 int main()
 {
+	char nombreRomain[]="MCMXCIX";
 	
 	
+	int decimal = nombreRomainToDecimal(nombreRomain);
+	printf("%d",decimal);
 	
 	/*
     //------------------------------------------------------------------

@@ -131,6 +131,17 @@ void test_randomPivot(){
         listFree(l);
         listFree(l_copy);
         printf("--- Fin du test ---\n");
+
+        list* l1 = listCreate();
+    l1 = listAdd(l1,2);
+        l1 = listAdd(l1,2);
+    l1 = listAdd(l1,2);
+    l1 = listAdd(l1,2);
+    l1 = listAdd(l1,2);
+    l1 = listAdd(l1,2);
+    l1=quickSort(l1);
+    listDisplay(l1);
+
     }
 }
 

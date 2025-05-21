@@ -38,9 +38,9 @@ void libere_arbre(arbre ** a){
 
 void infixe_inverse(FILE * f, arbre * a) {
   if(a!=NULL){
-    infixe_inverse(f,a->gauche);
-    fprintf(f,"%c\n",a->data);
     infixe_inverse(f,a->droite);
+    fprintf(f,"%c\n",a->data);
+    infixe_inverse(f,a->gauche);
 
   }
 }
